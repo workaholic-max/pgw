@@ -4,6 +4,7 @@ import { fileURLToPath, URL } from 'url';
 
 export default defineConfig({
     plugins: [vue()],
+    base: '/pgw',
     resolve: {
         alias: [
             {
