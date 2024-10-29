@@ -2,9 +2,9 @@ import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import { fileURLToPath, URL } from 'url';
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
     plugins: [vue()],
-    base: '/pgw',
+    base: mode === 'production' ? '/pgw/' : '/',
     resolve: {
         alias: [
             {
@@ -21,4 +21,4 @@ export default defineConfig({
             },
         },
     },
-});
+}));
