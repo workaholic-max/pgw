@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHashHistory } from 'vue-router';
 
 import { ROUTES_NAMES } from '@/enums/routesEnums';
 import PageViewSkeleton from '@/components/skeletons/PageViewSkeleton';
@@ -28,7 +28,7 @@ const routes = [
 
 const router = createRouter({
     routes,
-    history: createWebHistory(process.env.NODE_ENV === 'production' ? '/pgw/' : '/'),
+    history: createWebHashHistory(process.env.NODE_ENV === 'production' ? '/pgw/' : '/'),
 });
 
 export default router;
