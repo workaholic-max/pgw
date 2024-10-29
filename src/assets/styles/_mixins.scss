@@ -1,0 +1,15 @@
+@mixin hover($applyMobileHover: false) {
+    @media (hover: hover) and (pointer: fine) {
+        &:not(:disabled):not([disabled]):hover {
+            @content;
+        }
+    }
+
+    @if $applyMobileHover {
+        @media (hover: none), (pointer: coarse) {
+            &:not(:disabled):not([disabled]) {
+                @content;
+            }
+        }
+    }
+}

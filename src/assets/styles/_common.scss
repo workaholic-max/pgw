@@ -1,0 +1,40 @@
+@use 'variables' as vars;
+
+* {
+    -webkit-tap-highlight-color: transparent;
+
+    &::selection {
+        background-color: vars.$primary-color;
+    }
+
+    &::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: vars.$tertiary-color;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: vars.$primary-color;
+        border: 2px solid vars.$tertiary-color;
+        border-radius: 100px;
+    }
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    background-color: vars.$background-color;
+    color: vars.$white;
+    font-family: vars.$jura-font;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.25px;
+}
+
+#wm-app {
+    flex: 1 1 100%;
+    display: flex;
+    flex-direction: column;
+}

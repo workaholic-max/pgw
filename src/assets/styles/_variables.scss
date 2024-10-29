@@ -1,0 +1,22 @@
+/* Colors */
+$white: #ffffff;
+$black: #000000;
+$silver: #808080;
+$background-color: #141414;
+$primary-color: #333333;
+$secondary-color: #282828;
+$tertiary-color: #1c1c1c;
+
+/* Fonts */
+$jura-font: 'Jura', sans-serif;
+
+/* Breakpoints */
+$mobile-lg-breakpoint: 425px;
+
+/* Base properties */
+$base-border-radius: 4px;
+$base-transition: all 250ms ease-in;
+
+/* Custom properties */
+$space: 10px;
+$space--half: calc($space / 2);
