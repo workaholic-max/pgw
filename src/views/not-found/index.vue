@@ -5,7 +5,18 @@ export default {
 </script>
 
 <template>
-    <div class="wm-not-found">The page you're looking for doesn't exist</div>
+    <transition
+        appear
+        name="fade"
+        type="transition"
+    >
+        <div
+            class="wm-not-found"
+            style="transition-delay: 300ms"
+        >
+            The page you're looking for doesn't exist
+        </div>
+    </transition>
 </template>
 
 <style lang="scss" scoped>
