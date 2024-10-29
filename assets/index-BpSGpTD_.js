@@ -1,1 +1,0 @@
-import{_ as e,o,e as t}from"./index-DOPYhvMc.js";const n={name:"NotFoundView"},s={class:"wm-not-found"};function a(c,r,_,d,i,p){return o(),t("div",s,"The page you're looking for doesn't exist")}const u=e(n,[["render",a],["__scopeId","data-v-e6047a42"]]);export{u as default};
