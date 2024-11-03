@@ -7,12 +7,12 @@ export default {
 <template>
     <transition
         appear
-        name="fade"
+        name="slide-down"
         type="transition"
     >
         <div
             class="wm-not-found"
-            style="transition-delay: 300ms"
+            style="transition-delay: 250ms"
         >
             The page you're looking for doesn't exist
         </div>

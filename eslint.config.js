@@ -1,11 +1,13 @@
 import vuePlugin from 'eslint-plugin-vue';
+import vueParser from 'vue-eslint-parser';
 
 export default [
     {
-        files: ['*.vue', '*.js'],
+        files: ['src/**/*.vue', 'src/**/*.js'],
         languageOptions: {
             ecmaVersion: 'latest',
             sourceType: 'module',
+            parser: vueParser,
         },
         plugins: {
             vue: vuePlugin,

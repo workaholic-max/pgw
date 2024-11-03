@@ -21,6 +21,8 @@ import Header from './partials/Header';
 
 .wm-layout {
     flex: 1 1 100%;
+    display: flex;
+    flex-direction: column;
     max-width: vars.$mobile-lg-breakpoint;
     width: 100%;
     margin: 0 auto;

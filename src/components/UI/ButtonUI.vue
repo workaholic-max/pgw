@@ -11,6 +11,10 @@ defineProps({
         default: 'md',
         validator: (value) => ['sm', 'md', 'lg'].includes(value),
     },
+    isActive: {
+        type: Boolean,
+        default: false,
+    },
 });
 </script>
 
@@ -20,6 +24,7 @@ defineProps({
         class="wm-btn"
         :class="{
             [`wm-btn--${size}`]: true,
+            'wm-btn--active': isActive,
         }"
     >
         <slot />
@@ -50,6 +55,17 @@ defineProps({
     &--lg {
         padding: vars.$space vars.$space * 4;
         font-size: 18px;
+    }
+
+    &--active {
+        background-color: vars.$secondary-color;
+        border-color: transparent;
+    }
+
+    &:disabled,
+    &[disabled] {
+        border-color: vars.$tertiary-color;
+        color: rgba(vars.$white, 0.5);
     }
 }
 </style>

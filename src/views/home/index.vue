@@ -5,23 +5,23 @@ export default {
 </script>
 
 <script setup>
-import { ROUTES_NAMES } from '@/enums/routesEnums';
+import { GAME_ROUTES } from '@/enums/routesEnums';
 import GameCard from '@/components/GameCard';
 </script>
 
 <template>
     <transition
         appear
-        name="fade"
+        name="slide-down"
         type="transition"
     >
         <div
             class="wm-home"
-            style="transition-delay: 300ms"
+            style="transition-delay: 250ms"
         >
             <GameCard
-                name="Tic Tac Toe"
-                :link-to="{ name: ROUTES_NAMES.TIC_TAC_TOE }"
+                v-for="game in GAME_ROUTES"
+                :game="game"
             />
         </div>
     </transition>
@@ -32,8 +32,7 @@ import GameCard from '@/components/GameCard';
 
 .wm-home {
     display: flex;
-    flex-direction: column-reverse;
-    gap: vars.$space;
-    margin-top: vars.$space--half;
+    flex-direction: column;
+    gap: vars.$space--half;
 }
 </style>

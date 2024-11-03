@@ -1,7 +1,18 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 
-import { ROUTES_NAMES } from '@/enums/routesEnums';
+import { ROUTES_NAMES, GAME_ROUTES } from '@/enums/routesEnums';
 import PageViewSkeleton from '@/components/skeletons/PageViewSkeleton';
+
+const gameRoutes = GAME_ROUTES.map(({ name }) => {
+    const key = name.replace('wm.route.', '');
+
+    return {
+        name,
+        path: `/${key}`,
+        component: PageViewSkeleton,
+        props: { viewPath: key },
+    };
+});
 
 const routes = [
     {
@@ -11,12 +22,7 @@ const routes = [
         props: { viewPath: 'home' },
     },
 
-    {
-        path: '/tic-tac-toe',
-        name: ROUTES_NAMES.TIC_TAC_TOE,
-        component: PageViewSkeleton,
-        props: { viewPath: 'tic-tac-toe' },
-    },
+    ...gameRoutes,
 
     {
         path: '/:pathMatch(.*)*',

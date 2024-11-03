@@ -1,6 +1,6 @@
 <script>
 export default {
-    name: 'ArrowIcon',
+    name: 'RestartIcon',
 };
 </script>
 
@@ -14,11 +14,6 @@ defineProps({
         type: Number,
         default: 24,
     },
-    direction: {
-        type: String,
-        default: 'down',
-        validator: (value) => ['up', 'right', 'down', 'left'].includes(value),
-    },
 });
 </script>
 
@@ -27,7 +22,6 @@ defineProps({
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
-        :class="`wm-arrow--${direction}`"
         :width="width"
         :height="height"
     >
@@ -36,23 +30,7 @@ defineProps({
             stroke-linecap="round"
             stroke-linejoin="round"
             stroke-width="2"
-            d="m19 9-7 7-7-7"
+            d="M17.651 7.65a7.131 7.131 0 0 0-12.68 3.15M18.001 4v4h-4m-7.652 8.35a7.13 7.13 0 0 0 12.68-3.15M6 20v-4h4"
         />
     </svg>
 </template>
-
-<style lang="scss" scoped>
-.wm-arrow {
-    &--up {
-        transform: rotate(180deg);
-    }
-
-    &--right {
-        transform: rotate(-90deg);
-    }
-
-    &--left {
-        transform: rotate(90deg);
-    }
-}
-</style>

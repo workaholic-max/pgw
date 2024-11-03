@@ -5,6 +5,7 @@
 export const ROUTES_NAMES = {
     HOME: 'wm.route.home',
     TIC_TAC_TOE: 'wm.route.tic-tac-toe',
+    SNAKE: 'wm.route.snake',
     NOT_FOUND: 'wm.route.not-found',
 };
 
@@ -12,7 +13,7 @@ export const ROUTES_NAMES = {
                             Game routes
 -----------------------------------------------------------------*/
 
-export const GAME_TITLE_BY_ROUTE = {
-    [ROUTES_NAMES.TIC_TAC_TOE]: 'Tic Tac Toe',
-    [ROUTES_NAMES.NOT_FOUND]: '404',
-};
+export const GAME_ROUTES = [
+    { name: ROUTES_NAMES.TIC_TAC_TOE, title: 'Tic Tac Toe' },
+    { name: ROUTES_NAMES.SNAKE, title: 'Snake' },
+];

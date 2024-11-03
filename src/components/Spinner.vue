@@ -51,7 +51,7 @@ defineProps({
         display: block;
         width: auto;
         height: 100%;
-        aspect-ratio: 1 / 1;
+        aspect-ratio: 1/1;
         border-radius: 50%;
         border: 3px solid;
         border-color: vars.$white transparent vars.$white transparent;

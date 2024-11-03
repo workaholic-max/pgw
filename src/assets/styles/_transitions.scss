@@ -24,3 +24,14 @@
     transform: scale(0);
 }
 
+/* slide-down */
+.slide-down-enter-active,
+.slide-down-leave-active {
+    transition: vars.$base-transition;
+}
+
+.slide-down-enter-from,
+.slide-down-leave-to {
+    opacity: 0;
+    transform: translateY(vars.$space * -1);
+}

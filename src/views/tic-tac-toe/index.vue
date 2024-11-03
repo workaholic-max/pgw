@@ -7,8 +7,13 @@ export default {
 <script setup>
 import { computed, onMounted, onBeforeUnmount, ref, reactive } from 'vue';
 
-import { WINNABLE_POSITIONS } from '@/enums/tic-tac-toe';
+import { getWinnerPositions } from '@/utils/tic-tac-toe';
+import { BOARD_SIZE } from '@/enums/tic-tac-toe';
 import ButtonUI from '@/components/UI/ButtonUI';
+
+/*-----------------------------------------------------------------
+                             Game state
+-----------------------------------------------------------------*/
 
 const positionsState = reactive({
     selected: new Map(),
@@ -20,6 +25,10 @@ const isFirstPlayerTurn = ref(true);
 const currentFigure = computed(() => (isFirstPlayerTurn.value ? 'x' : 'o'));
 
 const isGameOver = computed(() => positionsState.selected.size === 9 || positionsState.winning.size > 0);
+
+/*-----------------------------------------------------------------
+                             Cell state
+-----------------------------------------------------------------*/
 
 /**
  * @param position {Number}
@@ -44,6 +53,10 @@ const getCellRenderKey = (position) => {
     return key;
 };
 
+/*-----------------------------------------------------------------
+                            Game events
+-----------------------------------------------------------------*/
+
 const restartGame = () => {
     positionsState.selected.clear();
     positionsState.winning.clear();
@@ -51,48 +64,22 @@ const restartGame = () => {
     isFirstPlayerTurn.value = true;
 };
 
-const hasPlayerWon = () => {
-    if (positionsState.selected.size < 5) {
-        return false;
-    }
-
-    const playerPositions = [];
-
-    positionsState.selected.forEach((figure, position) => {
-        if (currentFigure.value === figure) {
-            playerPositions.push(position);
-        }
-    });
-
-    playerPositions.sort((a, b) => a - b);
-
-    const playerPositionsSet = new Set(playerPositions);
-
-    for (const position of playerPositions) {
-        if (WINNABLE_POSITIONS[position]) {
-            for (const [a, b] of WINNABLE_POSITIONS[position]) {
-                if (playerPositionsSet.has(a) && playerPositionsSet.has(b)) {
-                    positionsState.winning = new Set([position, a, b]);
-
-                    return true;
-                }
-            }
-        }
-    }
-
-    return false;
-};
-
 /**
  * @param position {Number}
  */
 const togglePosition = (position) => {
-    if (!positionsState.selected.has(position) && !isGameOver.value) {
-        positionsState.selected.set(position, currentFigure.value);
+    if (positionsState.selected.has(position) || isGameOver.value) {
+        return;
+    }
 
-        if (!hasPlayerWon()) {
-            isFirstPlayerTurn.value = !isFirstPlayerTurn.value;
-        }
+    positionsState.selected.set(position, currentFigure.value);
+
+    const winnerPositions = getWinnerPositions(positionsState.selected, currentFigure.value);
+
+    if (winnerPositions.length > 0) {
+        positionsState.winning = new Set(winnerPositions);
+    } else {
+        isFirstPlayerTurn.value = !isFirstPlayerTurn.value;
     }
 };
 
@@ -107,18 +94,15 @@ const onKeypressPosition = ({ key }) => {
     }
 };
 
-onMounted(() => {
-    document.addEventListener('keyup', onKeypressPosition);
-
-    onBeforeUnmount(() => removeEventListener('keyup', onKeypressPosition));
-});
+onMounted(() => document.addEventListener('keyup', onKeypressPosition));
+onBeforeUnmount(() => document.removeEventListener('keyup', onKeypressPosition));
 </script>
 
 <template>
     <div class="wm-game">
         <transition
             appear
-            name="fade"
+            name="slide-down"
             type="transition"
         >
             <div
@@ -126,10 +110,10 @@ onMounted(() => {
                 :class="{
                     'wm-board--winnable': positionsState.winning.size > 0,
                 }"
-                style="transition-delay: 300ms"
+                style="transition-delay: 250ms"
             >
                 <button
-                    v-for="position in 9"
+                    v-for="position in BOARD_SIZE"
                     :key="`position: ${position}`"
                     class="wm-cell"
                     :class="{
@@ -173,7 +157,7 @@ onMounted(() => {
 
         <transition
             appear
-            name="fade"
+            name="slide-down"
             type="transition"
             mode="out-in"
         >
@@ -223,7 +207,7 @@ onMounted(() => {
     display: flex;
     align-items: center;
     justify-content: center;
-    aspect-ratio: inherit;
+    aspect-ratio: 1/1;
     border: none;
     transition: vars.$base-transition;
 

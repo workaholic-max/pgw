@@ -1,3 +1,5 @@
+export const BOARD_SIZE = 9;
+
 export const WINNABLE_POSITIONS = {
     1: [
         [2, 3],

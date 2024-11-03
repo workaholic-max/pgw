@@ -5,10 +5,10 @@ export default {
 </script>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
-import { ROUTES_NAMES, GAME_TITLE_BY_ROUTE } from '@/enums/routesEnums';
+import { ROUTES_NAMES, GAME_ROUTES } from '@/enums/routesEnums';
 import ButtonUI from '@/components/UI/ButtonUI';
 import ArrowIcon from '@/components/icons/ArrowIcon';
 
@@ -19,31 +19,31 @@ const route = useRoute();
                            General state
 -----------------------------------------------------------------*/
 
-const isAnimationActive = ref(false);
-
 const navigateHome = () => router.push({ name: ROUTES_NAMES.HOME });
 
-const currentGameTitle = computed(() => GAME_TITLE_BY_ROUTE[route.name] || null);
+const currentGameTitle = computed(() => {
+    if (route.name === ROUTES_NAMES.NOT_FOUND) {
+        return '404';
+    }
+
+    const { title } = GAME_ROUTES.find(({ name }) => route.name === name) || {};
+
+    return title || null;
+});
 </script>
 
 <template>
-    <header
-        class="wm-header"
-        :class="{
-            'wm-header--animated': isAnimationActive,
-        }"
-    >
+    <header class="wm-header">
         <transition
-            name="scale"
+            name="slide-down"
             type="transition"
             mode="out-in"
-            @before-enter="isAnimationActive = true"
-            @before-leave="isAnimationActive = true"
-            @after-enter="isAnimationActive = false"
-            @after-leave="isAnimationActive = false"
         >
             <template v-if="currentGameTitle !== null">
-                <div class="wm-header__wrapper">
+                <div
+                    :key="`game title: ${currentGameTitle}`"
+                    class="wm-header__wrapper"
+                >
                     <ButtonUI @click="navigateHome">
                         <ArrowIcon
                             direction="left"
@@ -67,24 +67,7 @@ const currentGameTitle = computed(() => GAME_TITLE_BY_ROUTE[route.name] || null)
 @use '@/assets/styles/variables' as vars;
 
 .wm-header {
-    position: relative;
-    min-height: 35px;
-    padding-bottom: vars.$space--half;
-
-    &::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        top: auto;
-        height: 0;
-        background-color: vars.$tertiary-color;
-        transition: vars.$base-transition;
-
-        @media screen and (max-width: vars.$mobile-lg-breakpoint) {
-            left: vars.$space * -1;
-            right: vars.$space * -1;
-        }
-    }
+    margin-bottom: vars.$space;
 
     &__wrapper {
         display: flex;
@@ -99,32 +82,10 @@ const currentGameTitle = computed(() => GAME_TITLE_BY_ROUTE[route.name] || null)
     }
 
     > h2 {
+        padding: vars.$space;
+        background-color: vars.$secondary-color;
+        border-radius: 100px;
         text-align: center;
-    }
-
-    &--animated::after {
-        height: calc(100% + #{vars.$space});
-    }
-
-    &:not(&--animated) > h2 {
-        position: relative;
-
-        &::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: vars.$space * -1;
-            bottom: vars.$space * -1;
-            background-color: vars.$tertiary-color;
-            transition: vars.$base-transition;
-            z-index: -1;
-
-            @media screen and (max-width: vars.$mobile-lg-breakpoint) {
-                left: vars.$space * -1;
-                right: vars.$space * -1;
-            }
-        }
     }
 }
 </style>
