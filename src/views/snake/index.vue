@@ -371,6 +371,7 @@ const isDirectionControlDisabled = (direction) =>
                 }
 
                 > span {
+                    color: vars.$white;
                     font-size: 18px;
                 }
 
