@@ -10,21 +10,12 @@ import GameCard from '@/components/GameCard';
 </script>
 
 <template>
-    <transition
-        appear
-        name="slide-down"
-        type="transition"
-    >
-        <div
-            class="wm-home"
-            style="transition-delay: 250ms"
-        >
-            <GameCard
-                v-for="game in GAME_ROUTES"
-                :game="game"
-            />
-        </div>
-    </transition>
+    <div class="wm-home">
+        <GameCard
+            v-for="game in GAME_ROUTES"
+            :game="game"
+        />
+    </div>
 </template>
 
 <style lang="scss" scoped>

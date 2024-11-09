@@ -100,64 +100,57 @@ onBeforeUnmount(() => document.removeEventListener('keyup', onKeypressPosition))
 
 <template>
     <div class="wm-game">
-        <transition
-            appear
-            name="slide-down"
-            type="transition"
+        <div
+            class="wm-board"
+            :class="{
+                'wm-board--winnable': positionsState.winning.size > 0,
+            }"
         >
-            <div
-                class="wm-board"
+            <button
+                v-for="position in BOARD_SIZE"
+                :key="`position: ${position}`"
+                class="wm-cell"
                 :class="{
-                    'wm-board--winnable': positionsState.winning.size > 0,
+                    'wm-cell--selected': positionsState.selected.has(position),
+                    'wm-cell--winnable': positionsState.winning.has(position),
                 }"
-                style="transition-delay: 250ms"
+                :data-current-figure="currentFigure"
+                :disabled="isGameOver"
+                @click="togglePosition(position)"
             >
-                <button
-                    v-for="position in BOARD_SIZE"
-                    :key="`position: ${position}`"
-                    class="wm-cell"
-                    :class="{
-                        'wm-cell--selected': positionsState.selected.has(position),
-                        'wm-cell--winnable': positionsState.winning.has(position),
-                    }"
-                    :data-current-figure="currentFigure"
-                    :disabled="isGameOver"
-                    @click="togglePosition(position)"
+                <transition
+                    name="scale"
+                    type="transition"
+                    mode="out-in"
                 >
-                    <transition
-                        name="scale"
-                        type="transition"
-                        mode="out-in"
+                    <span
+                        v-if="positionsState.selected.has(position)"
+                        :key="getCellRenderKey(position)"
                     >
-                        <span
-                            v-if="positionsState.selected.has(position)"
-                            :key="getCellRenderKey(position)"
-                        >
-                            {{ positionsState.selected.get(position) }}
-                        </span>
+                        {{ positionsState.selected.get(position) }}
+                    </span>
 
-                        <small v-else-if="!isGameOver">
-                            {{ position }}
-                        </small>
-                    </transition>
+                    <small v-else-if="!isGameOver">
+                        {{ position }}
+                    </small>
+                </transition>
 
-                    <transition
-                        appear
-                        name="scale"
-                        type="transition"
-                        mode="out-in"
-                    >
-                        <b v-if="positionsState.winning.has(position)">
-                            {{ position }}
-                        </b>
-                    </transition>
-                </button>
-            </div>
-        </transition>
+                <transition
+                    appear
+                    name="scale"
+                    type="transition"
+                    mode="out-in"
+                >
+                    <b v-if="positionsState.winning.has(position)">
+                        {{ position }}
+                    </b>
+                </transition>
+            </button>
+        </div>
 
         <transition
             appear
-            name="slide-down"
+            name="slide-up"
             type="transition"
             mode="out-in"
         >
@@ -194,7 +187,6 @@ onBeforeUnmount(() => document.removeEventListener('keyup', onKeypressPosition))
     border: 1px solid vars.$primary-color;
     border-radius: vars.$base-border-radius;
     overflow: hidden;
-    aspect-ratio: 1/1;
 
     &--winnable .wm-cell:not(.wm-cell--winnable) {
         color: vars.$silver;

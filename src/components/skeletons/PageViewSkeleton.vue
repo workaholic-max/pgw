@@ -30,7 +30,7 @@ const viewComponents = import.meta.glob('@/views/**/*.vue');
  *
  * @return {Object}
  */
-const loadComponent = (viewPath) => {
+const getViewComponent = (viewPath) => {
     const importCallback = viewComponents[`/src/views/${viewPath}/index.vue`];
 
     if (!importCallback) {
@@ -46,10 +46,17 @@ const loadComponent = (viewPath) => {
 </script>
 
 <template>
-    <component
-        :is="loadComponent(viewPath)"
-        v-bind="route.params"
-    />
+    <transition
+        appear
+        name="slide-down"
+        type="transition"
+        mode="out-in"
+    >
+        <component
+            :is="getViewComponent(viewPath)"
+            v-bind="route.params"
+        />
+    </transition>
 </template>
 
 <style lang="scss" scoped>

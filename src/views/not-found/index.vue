@@ -5,24 +5,15 @@ export default {
 </script>
 
 <template>
-    <transition
-        appear
-        name="slide-down"
-        type="transition"
-    >
-        <div
-            class="wm-not-found"
-            style="transition-delay: 250ms"
-        >
-            The page you're looking for doesn't exist
-        </div>
-    </transition>
+    <div class="wm-not-found">
+        <p>The page you're looking for doesn't exist</p>
+    </div>
 </template>
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as vars;
 
-.wm-not-found {
+.wm-not-found > p {
     padding: vars.$space * 2 vars.$space;
     border: 1px solid vars.$secondary-color;
     border-radius: vars.$base-border-radius;

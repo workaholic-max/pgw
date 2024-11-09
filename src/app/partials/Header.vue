@@ -35,6 +35,7 @@ const currentGameTitle = computed(() => {
 <template>
     <header class="wm-header">
         <transition
+            appear
             name="slide-down"
             type="transition"
             mode="out-in"

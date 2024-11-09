@@ -183,100 +183,91 @@ const isDirectionControlDisabled = (direction) =>
 </script>
 
 <template>
-    <transition
-        appear
-        name="slide-down"
-        type="transition"
-    >
-        <div
-            class="wm-game"
-            style="transition-delay: 250ms"
-        >
-            <div class="wm-board">
+    <div class="wm-game">
+        <div class="wm-board">
+            <div
+                v-for="row in BOARD_SIZE"
+                :key="`row: ${row}`"
+                class="wm-row"
+            >
                 <div
-                    v-for="row in BOARD_SIZE"
-                    :key="`row: ${row}`"
-                    class="wm-row"
-                >
-                    <div
-                        v-for="cell in BOARD_SIZE"
-                        :key="`cell: ${cell}`"
-                        class="wm-cell"
-                        :class="{
-                            'wm-cell--snake': isSnakeCell(cell, row),
-                            'wm-cell--food': isFoodCell(cell, row),
-                        }"
-                    />
-                </div>
-            </div>
-
-            <div class="wm-controls">
-                <div class="wm-controls__wrapper">
-                    <ButtonUI
-                        :is-active="snakeState.direction === SNAKE_DIRECTIONS.UP"
-                        :disabled="isDirectionControlDisabled(SNAKE_DIRECTIONS.UP)"
-                        @click="onClickDirectionControl(SNAKE_DIRECTIONS.UP)"
-                    >
-                        <ArrowIcon direction="up" />
-                    </ButtonUI>
-                </div>
-
-                <div class="wm-controls__wrapper">
-                    <ButtonUI
-                        :is-active="snakeState.direction === SNAKE_DIRECTIONS.LEFT"
-                        :disabled="isDirectionControlDisabled(SNAKE_DIRECTIONS.LEFT)"
-                        @click="onClickDirectionControl(SNAKE_DIRECTIONS.LEFT)"
-                    >
-                        <ArrowIcon direction="left" />
-                    </ButtonUI>
-
-                    <ButtonUI
-                        class="wm-game-state-control"
-                        :disabled="gameState.isStarted"
-                        @click="startGame"
-                    >
-                        <template v-if="gameState.isStarted">
-                            <span>{{ gameState.score }}</span>
-                            <small>score</small>
-                        </template>
-
-                        <template v-else-if="gameState.score > 0">
-                            <RestartIcon
-                                :width="20"
-                                :height="20"
-                            />
-
-                            <small>{{ `score: ${gameState.score}` }}</small>
-                        </template>
-
-                        <PlayIcon
-                            v-else
-                            :width="28"
-                            :height="28"
-                        />
-                    </ButtonUI>
-
-                    <ButtonUI
-                        :is-active="snakeState.direction === SNAKE_DIRECTIONS.RIGHT"
-                        :disabled="isDirectionControlDisabled(SNAKE_DIRECTIONS.RIGHT)"
-                        @click="onClickDirectionControl(SNAKE_DIRECTIONS.RIGHT)"
-                    >
-                        <ArrowIcon direction="right" />
-                    </ButtonUI>
-                </div>
-
-                <div class="wm-controls__wrapper">
-                    <ButtonUI
-                        :is-active="snakeState.direction === SNAKE_DIRECTIONS.DOWN"
-                        :disabled="isDirectionControlDisabled(SNAKE_DIRECTIONS.DOWN)"
-                        @click="onClickDirectionControl(SNAKE_DIRECTIONS.DOWN)"
-                    >
-                        <ArrowIcon />
-                    </ButtonUI>
-                </div>
+                    v-for="cell in BOARD_SIZE"
+                    :key="`cell: ${cell}`"
+                    class="wm-cell"
+                    :class="{
+                        'wm-cell--snake': isSnakeCell(cell, row),
+                        'wm-cell--food': isFoodCell(cell, row),
+                    }"
+                />
             </div>
         </div>
-    </transition>
+
+        <div class="wm-controls">
+            <div class="wm-controls__wrapper">
+                <ButtonUI
+                    :is-active="snakeState.direction === SNAKE_DIRECTIONS.UP"
+                    :disabled="isDirectionControlDisabled(SNAKE_DIRECTIONS.UP)"
+                    @click="onClickDirectionControl(SNAKE_DIRECTIONS.UP)"
+                >
+                    <ArrowIcon direction="up" />
+                </ButtonUI>
+            </div>
+
+            <div class="wm-controls__wrapper">
+                <ButtonUI
+                    :is-active="snakeState.direction === SNAKE_DIRECTIONS.LEFT"
+                    :disabled="isDirectionControlDisabled(SNAKE_DIRECTIONS.LEFT)"
+                    @click="onClickDirectionControl(SNAKE_DIRECTIONS.LEFT)"
+                >
+                    <ArrowIcon direction="left" />
+                </ButtonUI>
+
+                <ButtonUI
+                    class="wm-game-state-control"
+                    :disabled="gameState.isStarted"
+                    @click="startGame"
+                >
+                    <template v-if="gameState.isStarted">
+                        <span>{{ gameState.score }}</span>
+                        <small>score</small>
+                    </template>
+
+                    <template v-else-if="gameState.score > 0">
+                        <RestartIcon
+                            :width="20"
+                            :height="20"
+                        />
+
+                        <small>{{ `score: ${gameState.score}` }}</small>
+                    </template>
+
+                    <PlayIcon
+                        v-else
+                        :width="28"
+                        :height="28"
+                    />
+                </ButtonUI>
+
+                <ButtonUI
+                    :is-active="snakeState.direction === SNAKE_DIRECTIONS.RIGHT"
+                    :disabled="isDirectionControlDisabled(SNAKE_DIRECTIONS.RIGHT)"
+                    @click="onClickDirectionControl(SNAKE_DIRECTIONS.RIGHT)"
+                >
+                    <ArrowIcon direction="right" />
+                </ButtonUI>
+            </div>
+
+            <div class="wm-controls__wrapper">
+                <ButtonUI
+                    :is-active="snakeState.direction === SNAKE_DIRECTIONS.DOWN"
+                    :disabled="isDirectionControlDisabled(SNAKE_DIRECTIONS.DOWN)"
+                    @click="onClickDirectionControl(SNAKE_DIRECTIONS.DOWN)"
+                >
+                    <ArrowIcon />
+                </ButtonUI>
+            </div>
+        </div>
+    </div>
 </template>
 
 <style lang="scss" scoped>
