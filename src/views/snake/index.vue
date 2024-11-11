@@ -31,6 +31,14 @@ const gameState = reactive({
     isOver: false,
 });
 
+/**
+ * @param direction {String}
+ *
+ * @return {Boolean}
+ */
+const isDirectionControlDisabled = (direction) =>
+    !gameState.isStarted || !isChangeDirectionAllowed(snakeState.direction, direction);
+
 /*-----------------------------------------------------------------
                             Snake state
 -----------------------------------------------------------------*/
@@ -49,11 +57,19 @@ const setSnakeMoveInterval = () => {
     snakeMoveInterval = setInterval(moveSnake, snakeState.speed);
 };
 
-const setInitialSnakeState = () => {
+const resetSnakeState = () => {
     snakeState.positions = [...INITIAL_SNAKE_POSITIONS];
     snakeState.direction = INITIAL_SNAKE_DIRECTION;
     snakeState.speed = INITIAL_SNAKE_SPEED;
 };
+
+/**
+ * @param x {Number}
+ * @param y {Number}
+ *
+ * @return {Boolean}
+ */
+const isSnakeCell = (x, y) => snakeState.positions.some((segment) => segment.x === x && segment.y === y);
 
 watch(
     () => gameState.score,
@@ -64,10 +80,6 @@ watch(
             snakeState.speed = speed;
 
             setSnakeMoveInterval();
-        }
-
-        if (score === 30) {
-            gameOver();
         }
     }
 );
@@ -85,6 +97,14 @@ const setRandomFoodPosition = () => {
     foodPosition.x = getFoodRandomPosition(gameState.isOver);
     foodPosition.y = getFoodRandomPosition(gameState.isOver);
 };
+
+/**
+ * @param x {Number}
+ * @param y {Number}
+ *
+ * @return {Boolean}
+ */
+const isFoodCell = (x, y) => foodPosition.x === x && foodPosition.y === y;
 
 /*-----------------------------------------------------------------
                             Game events
@@ -135,7 +155,7 @@ const onClickDirectionControl = (direction) => {
 
 const startGame = () => {
     if (gameState.isOver) {
-        setInitialSnakeState();
+        resetSnakeState();
         setRandomFoodPosition();
     }
 
@@ -156,41 +176,17 @@ const gameOver = () => {
 
     window.removeEventListener('keydown', changeDirection);
 };
-
-/**
- * @param x {Number}
- * @param y {Number}
- *
- * @return {Boolean}
- */
-const isSnakeCell = (x, y) => snakeState.positions.some((segment) => segment.x === x && segment.y === y);
-
-/**
- * @param x {Number}
- * @param y {Number}
- *
- * @return {Boolean}
- */
-const isFoodCell = (x, y) => foodPosition.x === x && foodPosition.y === y;
-
-/**
- * @param direction {String}
- *
- * @return {Boolean}
- */
-const isDirectionControlDisabled = (direction) =>
-    !gameState.isStarted || !isChangeDirectionAllowed(snakeState.direction, direction);
 </script>
 
 <template>
     <div class="wm-game">
         <div class="wm-board">
-            <div
+            <ul
                 v-for="row in BOARD_SIZE"
                 :key="`row: ${row}`"
                 class="wm-row"
             >
-                <div
+                <li
                     v-for="cell in BOARD_SIZE"
                     :key="`cell: ${cell}`"
                     class="wm-cell"
@@ -199,7 +195,7 @@ const isDirectionControlDisabled = (direction) =>
                         'wm-cell--food': isFoodCell(cell, row),
                     }"
                 />
-            </div>
+            </ul>
         </div>
 
         <div class="wm-controls">

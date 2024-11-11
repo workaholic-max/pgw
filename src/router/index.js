@@ -4,13 +4,13 @@ import { ROUTES_NAMES, GAME_ROUTES } from '@/enums/routesEnums';
 import PageViewSkeleton from '@/components/skeletons/PageViewSkeleton';
 
 const gameRoutes = GAME_ROUTES.map(({ name }) => {
-    const key = name.replace('wm.route.', '');
+    const path = name.replace('wm.route.', '');
 
     return {
         name,
-        path: `/${key}`,
+        path: `/${path}`,
         component: PageViewSkeleton,
-        props: { viewPath: key },
+        props: { viewPath: path },
     };
 });
 

@@ -24,6 +24,18 @@ const cardsState = reactive({
     areDisabled: false,
 });
 
+/**
+ * @param card {String}
+ * @param index {Number}
+ *
+ * @return {Boolean}
+ */
+const isCardFlipped = (card, index) => {
+    const indexes = cardsState.flipped.get(card) || [];
+
+    return indexes.includes(index) || cardsState.matched.has(card);
+};
+
 const isGameOver = computed(() => cardsState.matched.size === CARD_TYPES.length);
 
 /*-----------------------------------------------------------------
@@ -35,18 +47,6 @@ const restartGame = () => {
     cardsState.flipped.clear();
     cardsState.matched.clear();
     cardsState.areDisabled = false;
-};
-
-/**
- * @param card {String}
- * @param index {Number}
- *
- * @return {Boolean}
- */
-const isCardFlipped = (card, index) => {
-    const indexes = cardsState.flipped.get(card) || [];
-
-    return indexes.includes(index) || cardsState.matched.has(card);
 };
 
 /**

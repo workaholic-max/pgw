@@ -1,3 +1,3 @@
-export const CARD_TYPES = ['square', 'circle', 'leaf'];
+export const CARD_TYPES = ['square', 'rectangle', 'circle', 'leaf'];
 
-export const CARD_MATCH_COUNT = 3;
+export const CARD_MATCH_COUNT = 4;

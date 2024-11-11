@@ -22,14 +22,6 @@ const positionsState = reactive({
 
 const isFirstPlayerTurn = ref(true);
 
-const currentFigure = computed(() => (isFirstPlayerTurn.value ? 'x' : 'o'));
-
-const isGameOver = computed(() => positionsState.selected.size === 9 || positionsState.winning.size > 0);
-
-/*-----------------------------------------------------------------
-                             Cell state
------------------------------------------------------------------*/
-
 /**
  * @param position {Number}
  *
@@ -52,6 +44,10 @@ const getCellRenderKey = (position) => {
 
     return key;
 };
+
+const currentFigure = computed(() => (isFirstPlayerTurn.value ? 'x' : 'o'));
+
+const isGameOver = computed(() => positionsState.selected.size === 9 || positionsState.winning.size > 0);
 
 /*-----------------------------------------------------------------
                             Game events
@@ -109,6 +105,7 @@ onBeforeUnmount(() => document.removeEventListener('keyup', onKeypressPosition))
             <button
                 v-for="position in BOARD_SIZE"
                 :key="`position: ${position}`"
+                type="button"
                 class="wm-cell"
                 :class="{
                     'wm-cell--selected': positionsState.selected.has(position),
