@@ -1,1 +1,0 @@
-import{_ as o,o as t,c as s,a as n}from"./index-CSAr512F.js";const a={name:"NotFoundView"},r={class:"wm-not-found"};function c(d,e,p,_,i,f){return t(),s("div",r,e[0]||(e[0]=[n("p",null,"The page you're looking for doesn't exist",-1)]))}const u=o(a,[["render",c],["__scopeId","data-v-49a2150f"]]);export{u as default};
